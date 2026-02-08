@@ -1,0 +1,32 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+  # Add this section
+  hostmetrics:
+    scrapers:
+      cpu:
+      memory:
+      load:
+
+exporters:
+  debug: {}
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+  oltp/temp:
+    endpoints: "172.31.6.218:8889"  # Server B(Graf) Ip
+  tls:
+     insecure: true
+
+service:
+  pipelines:
+    metrics:
+      # Add hostmetrics here
+      receivers: [otlp, hostmetrics]
+      exporters: [prometheus]
+    traces:
+      receivers: [otlp]
+      exporters: [debug]
