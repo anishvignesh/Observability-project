@@ -1,0 +1,17 @@
+server:
+  http_listen_port: 3200 # Port for Grafana to connect to
+
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc: # Server C sends data here (Port 4317)
+        http:
+
+storage:
+  trace:
+    backend: local
+    local:
+      path: /var/tempo/traces
+    wal:
+      path: /var/tempo/wal # Write Ahead Log for data safety
